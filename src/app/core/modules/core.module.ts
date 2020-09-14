@@ -4,11 +4,12 @@ import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 
 import { AngularMaterialModule } from './angular-material.module';
-import { NavbarComponent } from '../components';
+import { LoadingComponent, NavbarComponent } from '../components';
 
 @NgModule({
-  exports: [NavbarComponent, HttpClientModule],
-  declarations: [NavbarComponent],
+  exports: [NavbarComponent, LoadingComponent, HttpClientModule],
+  declarations: [NavbarComponent, LoadingComponent],
   imports: [CommonModule, FormsModule, AngularMaterialModule],
+  providers: [LoadingComponent],
 })
 export class CoreModule {}

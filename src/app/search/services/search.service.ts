@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import { BaseService } from 'src/app/core';
+import { BaseService } from 'src/app/core/services/base.service';
 
 @Injectable({
   providedIn: 'root',
@@ -58,7 +58,7 @@ export class SearchService {
   public getSearchTopics(text: string, page: number): void {}
 
   public getSearchUsers(text: string = 'sergiogomes', page: number): void {
-    this.base.get(`/search/users?q=${text}&order=asc&page=${page}`).subscribe(
+    this.base.get(`/search/users?q=${text}&order=asc&page=${page}`).then(
       (resp) => {
         this.usersData = resp;
       },

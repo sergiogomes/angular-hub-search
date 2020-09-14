@@ -4,8 +4,7 @@ import {
   HttpErrorResponse,
   HttpHeaders,
 } from '@angular/common/http';
-import { catchError, finalize, take } from 'rxjs/operators';
-import { Observable, throwError } from 'rxjs';
+import { Observable, Subject, throwError } from 'rxjs';
 
 import { environment } from 'src/environments/environment';
 
@@ -13,6 +12,11 @@ import { environment } from 'src/environments/environment';
   providedIn: 'root',
 })
 export class BaseService {
+  public loading$: Subject<boolean> = new Subject<boolean>();
+  get eventLoadingChanged(): Observable<any> {
+    return this.loading$.asObservable();
+  }
+
   constructor(private http: HttpClient) {}
 
   private defaultHeaders(): HttpHeaders {
@@ -22,25 +26,22 @@ export class BaseService {
     return headers;
   }
 
-  private handleError(error: HttpErrorResponse): Observable<never> {
-    if (error.error instanceof ErrorEvent) {
-      console.error('An error occurred:', error.error.message);
-    } else {
-      console.error(
-        `Backend returned code ${error.status}, ` + `body was: ${error.error}`
-      );
-    }
-    return throwError('Something bad happened; please try again later.');
-  }
-
   public get(url: string, headers: HttpHeaders = this.defaultHeaders()): any {
-    // open loading component
-    return this.http.get(environment.url + url, { headers }).pipe(
-      catchError((error) => this.handleError(error)),
-      finalize(() => {
-        console.log('finished');
-        // close loading component
-      })
-    );
+    this.loading$.next(true);
+    return new Promise((resolve, reject) => {
+      this.http
+        .get(environment.url + url, { headers })
+        .toPromise()
+        .then(
+          (res) => {
+            resolve(res);
+            this.loading$.next(false);
+          },
+          (err) => {
+            reject(err);
+            this.loading$.next(false);
+          }
+        );
+    });
   }
 }
