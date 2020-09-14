@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
+import { Observable, Subject } from 'rxjs';
 
 import { BaseService } from 'src/app/core/services/base.service';
+import { QueryParams } from 'src/app/core/models';
 
 @Injectable({
   providedIn: 'root',
@@ -18,6 +20,11 @@ export class SearchService {
     incomplete_results: true,
     items: [],
   };
+
+  public searchChanged$: Subject<QueryParams> = new Subject<QueryParams>();
+  get eventSearchChanged(): Observable<any> {
+    return this.searchChanged$.asObservable();
+  }
 
   constructor(private base: BaseService) {}
 

@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Subscription } from 'rxjs';
 
 import { BaseService } from '../../services/base.service';
 
@@ -7,12 +8,14 @@ import { BaseService } from '../../services/base.service';
   templateUrl: './loading.component.html',
   styleUrls: ['./loading.component.scss'],
 })
-export class LoadingComponent implements OnInit {
+export class LoadingComponent implements OnInit, OnDestroy {
   public count = 0;
   public display = 'd-none';
 
+  private loadingSub: Subscription;
+
   constructor(private base: BaseService) {
-    this.base.eventLoadingChanged.subscribe((res) => {
+    this.loadingSub = this.base.eventLoadingChanged.subscribe((res) => {
       if (res) {
         this.show();
       } else {
@@ -41,5 +44,9 @@ export class LoadingComponent implements OnInit {
     if (this.count === 0) {
       this.display = 'd-none';
     }
+  }
+
+  ngOnDestroy(): void {
+    this.loadingSub.unsubscribe();
   }
 }
