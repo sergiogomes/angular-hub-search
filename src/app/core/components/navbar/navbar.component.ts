@@ -34,4 +34,8 @@ export class NavbarComponent implements OnInit {
       this.onSearch();
     }
   }
+
+  public onClickHome(): void {
+    this.router.navigate(['/home']);
+  }
 }

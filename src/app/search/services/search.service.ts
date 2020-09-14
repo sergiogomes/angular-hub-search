@@ -2,24 +2,18 @@ import { Injectable } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 
 import { BaseService } from 'src/app/core/services/base.service';
-import { QueryParams } from 'src/app/core/models';
+import { DefaultResult, QueryParams } from 'src/app/core/models';
 
 @Injectable({
   providedIn: 'root',
 })
 export class SearchService {
-  repositoriesData: any;
-  codesData: any;
-  commitsData: any;
-  issuesData: any;
-  topicsData: any;
-  usersData: any;
-  filter: any;
-  defaultResult = {
-    total_count: 0,
-    incomplete_results: true,
-    items: [],
-  };
+  repositoriesData: DefaultResult;
+  codesData: DefaultResult;
+  commitsData: DefaultResult;
+  issuesData: DefaultResult;
+  topicsData: DefaultResult;
+  usersData: DefaultResult;
 
   public searchChanged$: Subject<QueryParams> = new Subject<QueryParams>();
   get eventSearchChanged(): Observable<any> {
@@ -72,7 +66,7 @@ export class SearchService {
       (err) => {
         // TODO: explode this error
         console.error(err);
-        this.usersData = this.defaultResult;
+        this.usersData.error = err;
       }
     );
   }
