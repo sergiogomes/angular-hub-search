@@ -4,7 +4,7 @@ import {
   HttpErrorResponse,
   HttpHeaders,
 } from '@angular/common/http';
-import { catchError, finalize } from 'rxjs/operators';
+import { catchError, finalize, take } from 'rxjs/operators';
 import { Observable, throwError } from 'rxjs';
 
 import { environment } from 'src/environments/environment';
@@ -35,7 +35,7 @@ export class BaseService {
 
   public get(url: string, headers: HttpHeaders = this.defaultHeaders()): any {
     // open loading component
-    this.http.get(environment.url + url, { headers }).pipe(
+    return this.http.get(environment.url + url, { headers }).pipe(
       catchError((error) => this.handleError(error)),
       finalize(() => {
         console.log('finished');
