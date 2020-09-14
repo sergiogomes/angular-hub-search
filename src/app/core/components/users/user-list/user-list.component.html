@@ -13,4 +13,12 @@
       </mat-card>
     </ng-container>
   </div>
+  <ng-container *ngIf="usersData.total_count > 30">
+    <app-pagination
+      [total]="usersData.total_count"
+      [page]="usersData.page"
+      [text]="text"
+      type="Users"
+    ></app-pagination>
+  </ng-container>
 </ng-container>

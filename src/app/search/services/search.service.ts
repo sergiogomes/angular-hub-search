@@ -1,13 +1,17 @@
-import { Injectable } from '@angular/core';
-import { Observable, Subject } from 'rxjs';
+import { Injectable, OnDestroy } from '@angular/core';
+import { Observable, Subject, Subscription } from 'rxjs';
 
 import { BaseService } from 'src/app/core/services/base.service';
-import { DefaultResult, QueryParams } from 'src/app/core/models';
+import {
+  DefaultResult,
+  PaginationUpdate,
+  QueryParams,
+} from 'src/app/core/models';
 
 @Injectable({
   providedIn: 'root',
 })
-export class SearchService {
+export class SearchService implements OnDestroy {
   repositoriesData: DefaultResult;
   codesData: DefaultResult;
   commitsData: DefaultResult;
@@ -20,7 +24,19 @@ export class SearchService {
     return this.searchChanged$.asObservable();
   }
 
-  constructor(private base: BaseService) {}
+  public pagination$: Subject<PaginationUpdate> = new Subject<
+    PaginationUpdate
+  >();
+  get eventChangePagination(): Observable<any> {
+    return this.pagination$.asObservable();
+  }
+  private paginationSub: Subscription;
+
+  constructor(private base: BaseService) {
+    this.paginationSub = this.eventChangePagination.subscribe((pageData) => {
+      this.search(pageData.text, pageData.pageIndex, pageData.type);
+    });
+  }
 
   public search(text: string, page: number, type: string = 'All'): void {
     // if (type === 'Repositories' || type === 'All') {
@@ -62,6 +78,7 @@ export class SearchService {
     this.base.get(`/search/users?q=${text}&order=asc&page=${page}`).then(
       (resp) => {
         this.usersData = resp;
+        this.usersData.page = page;
       },
       (err) => {
         // TODO: explode this error
@@ -69,5 +86,9 @@ export class SearchService {
         this.usersData.error = err;
       }
     );
+  }
+
+  ngOnDestroy(): void {
+    this.paginationSub.unsubscribe();
   }
 }

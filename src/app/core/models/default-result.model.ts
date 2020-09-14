@@ -5,8 +5,10 @@ export class DefaultResult {
   incomplete_results: boolean;
   items: Array<any>;
   error: string;
+  page: number;
 
   constructor() {
     this.total_count = 0;
+    this.page = 1;
   }
 }

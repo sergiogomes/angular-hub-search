@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+
 import { DefaultResult } from 'src/app/core/models';
 
 @Component({
@@ -8,6 +9,8 @@ import { DefaultResult } from 'src/app/core/models';
 })
 export class UserListComponent implements OnInit {
   @Input() usersData: DefaultResult;
+  @Input() text: string;
+  @Input() type: string;
 
   constructor() {}
 

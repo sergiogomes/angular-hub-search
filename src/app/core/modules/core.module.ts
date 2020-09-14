@@ -7,6 +7,7 @@ import { AngularMaterialModule } from './angular-material.module';
 import {
   LoadingComponent,
   NavbarComponent,
+  PaginationComponent,
   UserListComponent,
 } from '../components';
 
@@ -16,8 +17,14 @@ import {
     NavbarComponent,
     LoadingComponent,
     UserListComponent,
+    PaginationComponent,
   ],
-  declarations: [NavbarComponent, LoadingComponent, UserListComponent],
+  declarations: [
+    NavbarComponent,
+    LoadingComponent,
+    UserListComponent,
+    PaginationComponent,
+  ],
   imports: [CommonModule, FormsModule, AngularMaterialModule],
   providers: [LoadingComponent],
 })
