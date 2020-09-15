@@ -1,3 +1,3 @@
 export * from './query-params.model';
 export * from './default-result.model';
-export * from './pagination.model';
+export * from './page.model';

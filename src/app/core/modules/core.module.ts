@@ -18,6 +18,7 @@ import {
     LoadingComponent,
     UserListComponent,
     PaginationComponent,
+    AngularMaterialModule,
   ],
   declarations: [
     NavbarComponent,

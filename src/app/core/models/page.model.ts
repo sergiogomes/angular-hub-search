@@ -1,4 +1,4 @@
-export class PaginationUpdate {
+export class PageUpdate {
   length: number;
   pageIndex: number;
   pageSize: number;

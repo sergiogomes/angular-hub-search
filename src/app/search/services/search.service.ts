@@ -2,35 +2,29 @@ import { Injectable, OnDestroy } from '@angular/core';
 import { Observable, Subject, Subscription } from 'rxjs';
 
 import { BaseService } from 'src/app/core/services/base.service';
-import {
-  DefaultResult,
-  PaginationUpdate,
-  QueryParams,
-} from 'src/app/core/models';
+import { DefaultResult, PageUpdate, QueryParams } from 'src/app/core/models';
 
 @Injectable({
   providedIn: 'root',
 })
 export class SearchService implements OnDestroy {
-  repositoriesData: DefaultResult;
-  codesData: DefaultResult;
-  commitsData: DefaultResult;
-  issuesData: DefaultResult;
-  discussionsData: DefaultResult;
-  packagesData: DefaultResult;
-  marketplaceData: DefaultResult;
-  topicsData: DefaultResult;
-  wikisData: DefaultResult;
-  usersData: DefaultResult;
+  repositoriesData = new DefaultResult('Repositories', 'repository');
+  codesData = new DefaultResult('Code', 'code');
+  commitsData = new DefaultResult('Commits', 'commit');
+  issuesData = new DefaultResult('Issues', 'issue');
+  discussionsData = new DefaultResult('Discussions', 'discussion');
+  packagesData = new DefaultResult('Packages', 'package');
+  marketplaceData = new DefaultResult('Marketplace', 'marketplace');
+  topicsData = new DefaultResult('Topics', 'topic');
+  wikisData = new DefaultResult('Wikis', 'wiki');
+  usersData = new DefaultResult('Users', 'user');
 
   public searchChanged$: Subject<QueryParams> = new Subject<QueryParams>();
   get eventSearchChanged(): Observable<any> {
     return this.searchChanged$.asObservable();
   }
 
-  public pagination$: Subject<PaginationUpdate> = new Subject<
-    PaginationUpdate
-  >();
+  public pagination$: Subject<PageUpdate> = new Subject<PageUpdate>();
   get eventChangePagination(): Observable<any> {
     return this.pagination$.asObservable();
   }
@@ -40,17 +34,6 @@ export class SearchService implements OnDestroy {
     this.paginationSub = this.eventChangePagination.subscribe((pageData) => {
       this.search(pageData.text, pageData.pageIndex, pageData.type);
     });
-
-    this.repositoriesData = new DefaultResult('Repositories', 'repository');
-    this.codesData = new DefaultResult('Code', 'code');
-    this.commitsData = new DefaultResult('Commits', 'commit');
-    this.issuesData = new DefaultResult('Issues', 'issue');
-    this.discussionsData = new DefaultResult('Discussions', 'discussion');
-    this.packagesData = new DefaultResult('Packages', 'package');
-    this.marketplaceData = new DefaultResult('Marketplace', 'marketplace');
-    this.topicsData = new DefaultResult('Topics', 'topic');
-    this.wikisData = new DefaultResult('Wikis', 'wiki');
-    this.usersData = new DefaultResult('Users', 'user');
   }
 
   public search(text: string, page: number, type: string = 'All'): void {

@@ -2,19 +2,41 @@
   <div class="sidenav">
     <ul class="list">
       <li class="item" *ngFor="let option of resultArray">
-        <div class="content">
-          {{ option.title }}
-          <span class="badge">{{ option.total_count }}</span>
+        <div
+          class="content"
+          (click)="onSelectType(option.title)"
+          [class]="selectedFilter === option.title ? 'selected' : ''"
+        >
+          <span
+            [matBadgeDisabled]="option.total_count === 0"
+            [matBadge]="option.total_count"
+            matBadgeOverlap="false"
+            matBadgePosition="after"
+            >{{ option.title }}</span
+          >
         </div>
         <div class="divider"></div>
       </li>
     </ul>
   </div>
+
   <div class="main">
-    <app-user-list
-      [usersData]="service.usersData"
-      [text]="text"
-      [type]="type"
-    ></app-user-list>
+    <div class="results" [style]="innerHeight">
+      <ng-container *ngIf="selectedFilter === 'Users'">
+        <app-user-list
+          [usersData]="service.usersData"
+          [text]="text"
+          [type]="type"
+        ></app-user-list>
+      </ng-container>
+    </div>
+    <ng-container *ngIf="resultFiltered.total_count > 30">
+      <app-pagination
+        [total]="resultFiltered.total_count"
+        [page]="resultFiltered.page"
+        [text]="text"
+        [type]="selectedFilter"
+      ></app-pagination>
+    </ng-container>
   </div>
 </div>

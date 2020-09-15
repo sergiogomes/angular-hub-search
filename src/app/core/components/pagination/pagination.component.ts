@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 
 import { SearchService } from 'src/app/search/services';
-import { PaginationUpdate } from '../../models';
+import { PageUpdate } from '../../models';
 
 @Component({
   selector: 'app-pagination',
@@ -19,7 +19,7 @@ export class PaginationComponent implements OnInit {
   ngOnInit(): void {}
 
   getUpdate($event): void {
-    const pageData = new PaginationUpdate();
+    const pageData = new PageUpdate();
     pageData.length = $event.length;
     pageData.pageIndex = $event.pageIndex + 1;
     pageData.pageSize = $event.pageSize;

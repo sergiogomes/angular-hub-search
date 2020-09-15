@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { QueryParams } from '../core/models';
+import { DefaultResult, QueryParams } from '../core/models';
 
 import { SearchService } from './services';
 
@@ -14,6 +14,8 @@ export class SearchComponent implements OnInit, OnDestroy {
   text: string;
   type: string;
   page: number;
+  selectedFilter: string;
+  innerHeight = 'max-height: 500px;';
 
   private routeParamsSub: Subscription;
   private searchingSub: Subscription;
@@ -25,6 +27,7 @@ export class SearchComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    this.innerHeight = `max-height: ${window.innerHeight - 166}px`;
     this.routeParamsSub = this.route.queryParams.subscribe((params) => {
       this.mapAndSearch(params);
     });
@@ -32,15 +35,15 @@ export class SearchComponent implements OnInit, OnDestroy {
 
   mapAndSearch(params: QueryParams | any): void {
     this.text = params.q;
-    this.type = params.type;
     this.page = params.page;
+    this.type = params.type;
+    this.selectedFilter = this.type === 'All' ? 'Repositories' : this.type;
 
     this.service.search(this.text, this.page, this.type);
   }
 
-  ngOnDestroy(): void {
-    this.routeParamsSub.unsubscribe();
-    this.searchingSub.unsubscribe();
+  onSelectType(title): void {
+    this.selectedFilter = title;
   }
 
   get resultArray(): Array<any> {
@@ -56,5 +59,16 @@ export class SearchComponent implements OnInit, OnDestroy {
       this.service.wikisData,
       this.service.usersData,
     ];
+  }
+
+  get resultFiltered(): DefaultResult {
+    return this.resultArray.filter((option) => {
+      return option.title === this.selectedFilter;
+    })[0];
+  }
+
+  ngOnDestroy(): void {
+    this.routeParamsSub.unsubscribe();
+    this.searchingSub.unsubscribe();
   }
 }

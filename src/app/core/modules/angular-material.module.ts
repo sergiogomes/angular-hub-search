@@ -6,6 +6,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
+import { MatBadgeModule } from '@angular/material/badge';
 import { MatCardModule } from '@angular/material/card';
 
 @NgModule({
@@ -15,6 +16,7 @@ import { MatCardModule } from '@angular/material/card';
     MatToolbarModule,
     MatButtonModule,
     MatInputModule,
+    MatBadgeModule,
     MatIconModule,
     MatCardModule,
   ],
@@ -24,6 +26,7 @@ import { MatCardModule } from '@angular/material/card';
     MatToolbarModule,
     MatButtonModule,
     MatInputModule,
+    MatBadgeModule,
     MatIconModule,
     MatCardModule,
   ],
