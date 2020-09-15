@@ -42,4 +42,19 @@ export class SearchComponent implements OnInit, OnDestroy {
     this.routeParamsSub.unsubscribe();
     this.searchingSub.unsubscribe();
   }
+
+  get resultArray(): Array<any> {
+    return [
+      this.service.repositoriesData,
+      this.service.codesData,
+      this.service.commitsData,
+      this.service.issuesData,
+      this.service.discussionsData,
+      this.service.packagesData,
+      this.service.marketplaceData,
+      this.service.topicsData,
+      this.service.wikisData,
+      this.service.usersData,
+    ];
+  }
 }

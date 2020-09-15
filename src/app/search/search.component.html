@@ -1,73 +1,10 @@
 <div class="wrapper">
   <div class="sidenav">
     <ul class="list">
-      <li class="item">
+      <li class="item" *ngFor="let option of resultArray">
         <div class="content">
-          Repositories
-          <span class="badge">0 </span>
-        </div>
-        <div class="divider"></div>
-      </li>
-      <li class="item">
-        <div class="content">
-          Code
-          <span class="badge">0 </span>
-        </div>
-        <div class="divider"></div>
-      </li>
-      <li class="item">
-        <div class="content">
-          Commits
-          <span class="badge">0 </span>
-        </div>
-        <div class="divider"></div>
-      </li>
-      <li class="item">
-        <div class="content">
-          Issues
-          <span class="badge">0 </span>
-        </div>
-        <div class="divider"></div>
-      </li>
-      <li class="item">
-        <div class="content">
-          Discussions
-          <span class="badge">0 </span>
-        </div>
-        <div class="divider"></div>
-      </li>
-      <li class="item">
-        <div class="content">
-          Packages
-          <span class="badge">0 </span>
-        </div>
-        <div class="divider"></div>
-      </li>
-      <li class="item">
-        <div class="content">
-          Marketplace
-          <span class="badge">0 </span>
-        </div>
-        <div class="divider"></div>
-      </li>
-      <li class="item">
-        <div class="content">
-          Topics
-          <span class="badge">0 </span>
-        </div>
-        <div class="divider"></div>
-      </li>
-      <li class="item">
-        <div class="content">
-          Wikis
-          <span class="badge">0 </span>
-        </div>
-        <div class="divider"></div>
-      </li>
-      <li class="item">
-        <div class="content">
-          Users
-          <span class="badge">0 </span>
+          {{ option.title }}
+          <span class="badge">{{ option.total_count }}</span>
         </div>
         <div class="divider"></div>
       </li>

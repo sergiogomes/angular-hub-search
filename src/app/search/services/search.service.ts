@@ -16,7 +16,11 @@ export class SearchService implements OnDestroy {
   codesData: DefaultResult;
   commitsData: DefaultResult;
   issuesData: DefaultResult;
+  discussionsData: DefaultResult;
+  packagesData: DefaultResult;
+  marketplaceData: DefaultResult;
   topicsData: DefaultResult;
+  wikisData: DefaultResult;
   usersData: DefaultResult;
 
   public searchChanged$: Subject<QueryParams> = new Subject<QueryParams>();
@@ -36,6 +40,17 @@ export class SearchService implements OnDestroy {
     this.paginationSub = this.eventChangePagination.subscribe((pageData) => {
       this.search(pageData.text, pageData.pageIndex, pageData.type);
     });
+
+    this.repositoriesData = new DefaultResult('Repositories', 'repository');
+    this.codesData = new DefaultResult('Code', 'code');
+    this.commitsData = new DefaultResult('Commits', 'commit');
+    this.issuesData = new DefaultResult('Issues', 'issue');
+    this.discussionsData = new DefaultResult('Discussions', 'discussion');
+    this.packagesData = new DefaultResult('Packages', 'package');
+    this.marketplaceData = new DefaultResult('Marketplace', 'marketplace');
+    this.topicsData = new DefaultResult('Topics', 'topic');
+    this.wikisData = new DefaultResult('Wikis', 'wiki');
+    this.usersData = new DefaultResult('Users', 'user');
   }
 
   public search(text: string, page: number, type: string = 'All'): void {
@@ -77,7 +92,9 @@ export class SearchService implements OnDestroy {
   public getSearchUsers(text: string = 'sergiogomes', page: number): void {
     this.base.get(`/search/users?q=${text}&order=asc&page=${page}`).then(
       (resp) => {
-        this.usersData = resp;
+        this.usersData.incomplete_results = resp.incomplete_results;
+        this.usersData.total_count = resp.total_count;
+        this.usersData.items = resp.items;
         this.usersData.page = page;
       },
       (err) => {
