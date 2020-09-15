@@ -9,6 +9,15 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatCardModule } from '@angular/material/card';
 
 @NgModule({
+  imports: [
+    MatProgressSpinnerModule,
+    MatPaginatorModule,
+    MatToolbarModule,
+    MatButtonModule,
+    MatInputModule,
+    MatIconModule,
+    MatCardModule,
+  ],
   exports: [
     MatProgressSpinnerModule,
     MatPaginatorModule,

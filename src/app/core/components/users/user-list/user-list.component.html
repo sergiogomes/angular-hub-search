@@ -1,10 +1,10 @@
 <ng-container *ngIf="usersData">
   <h1>{{ usersData.total_count }} users</h1>
-  <div className="list-group-item">
+  <div>
     <ng-container *ngFor="let user of usersData.items">
-      <mat-card class="example-card">
+      <mat-card class="card">
         <mat-card-header>
-          <div mat-card-avatar class="example-header-image">
+          <div mat-card-avatar class="header-image">
             <img mat-card-avatar [src]="user.avatar_url" [alt]="user.login" />
           </div>
           <mat-card-title>{{ user.login }}</mat-card-title>
@@ -13,6 +13,7 @@
       </mat-card>
     </ng-container>
   </div>
+
   <ng-container *ngIf="usersData.total_count > 30">
     <app-pagination
       [total]="usersData.total_count"

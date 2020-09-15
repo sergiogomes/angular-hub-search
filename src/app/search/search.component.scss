@@ -1,0 +1,48 @@
+.wrapper {
+  display: flex;
+}
+
+.main {
+  padding: 20px;
+  width: 100%;
+}
+
+.sidenav {
+  width: 30%;
+
+  .list {
+    padding-top: 0;
+
+    .item {
+      display: block;
+      height: 48px;
+      padding: 0;
+      width: 100%;
+      -webkit-tap-highlight-color: transparent;
+
+      .content {
+        align-items: center;
+        box-sizing: border-box;
+        display: flex;
+        flex-direction: row;
+        height: inherit;
+        justify-content: space-between;
+        padding: 0 16px;
+        position: relative;
+
+        .badge {
+          width: 22px;
+          height: 22px;
+          line-height: 22px;
+        }
+      }
+    }
+  }
+}
+
+.divider {
+  border-top-style: solid;
+  border-top-width: 1px;
+  display: block;
+  margin: 0;
+}
