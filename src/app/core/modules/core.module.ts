@@ -6,6 +6,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { AngularMaterialModule } from './angular-material.module';
 import {
   CodeListComponent,
+  ErrorComponent,
   IssueListComponent,
   LoadingComponent,
   NavbarComponent,
@@ -25,6 +26,7 @@ import {
     HttpClientModule,
     LoadingComponent,
     NavbarComponent,
+    ErrorComponent,
   ],
   declarations: [
     RepositoryListComponent,
@@ -34,6 +36,7 @@ import {
     UserListComponent,
     LoadingComponent,
     NavbarComponent,
+    ErrorComponent,
   ],
   imports: [CommonModule, FormsModule, AngularMaterialModule],
   providers: [LoadingComponent],

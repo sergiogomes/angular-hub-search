@@ -1,0 +1,29 @@
+<ng-container *ngIf="errorData">
+  <mat-card class="card">
+    <mat-card-header>
+      <mat-card-title>{{ errorData.statusText }}</mat-card-title>
+      <mat-card-subtitle>{{ errorData.error.message }}</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+      <div class="justify-between">
+        <small class="card-comment">{{ errorData.name }}</small>
+        <small class="card-comment">status: {{ errorData.status }}</small>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</ng-container>
+
+<!-- 
+{
+  "headers": { "normalizedNames": {}, "lazyUpdate": null },
+  "status": 403,
+  "statusText": "rate limit exceeded",
+  "url": "https://api.github.com/search/repositories?q=nextjs&order=asc&page=8",
+  "ok": false,
+  "name": "HttpErrorResponse",
+  "message": "Http failure response for https://api.github.com/search/repositories?q=nextjs&order=asc&page=8: 403 rate limit exceeded",
+  "error": {
+    "message": "API rate limit exceeded for 201.17.159.105. (But here's the good news: Authenticated requests get a higher rate limit. Check out the documentation for more details.)",
+    "documentation_url": "https://developer.github.com/v3/#rate-limiting"
+  }
+} -->

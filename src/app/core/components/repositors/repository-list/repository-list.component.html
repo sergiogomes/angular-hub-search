@@ -25,5 +25,5 @@
       </mat-card-content>
     </mat-card>
   </ng-container>
-  <p class="result-error">{{ repositoriesData.error }}</p>
+  <app-error [errorData]="repositoriesData.error"></app-error>
 </ng-container>

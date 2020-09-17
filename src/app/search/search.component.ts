@@ -28,6 +28,11 @@ export class SearchComponent implements OnInit, OnDestroy {
     this.paginationSub = this.service.eventChangePagination.subscribe(
       (pageData) => {
         this.page = pageData.pageIndex;
+        this.mapAndSearch({
+          q: pageData.text,
+          page: pageData.pageIndex,
+          type: pageData.type,
+        });
       }
     );
   }
@@ -46,6 +51,7 @@ export class SearchComponent implements OnInit, OnDestroy {
     this.selectedFilter = this.type === 'All' ? 'Repositories' : this.type;
 
     this.service.search(this.text, this.page, this.type);
+    this.updateURL({ q: this.text, page: this.page, type: this.type });
   }
 
   onSelectType(title): void {
@@ -53,7 +59,17 @@ export class SearchComponent implements OnInit, OnDestroy {
     const filtered = this.resultFiltered;
     if (filtered.total_count === 0) {
       this.mapAndSearch({ q: this.text, page: filtered.page, type: title });
+    } else {
+      this.updateURL({ q: this.text, page: filtered.page, type: title });
     }
+  }
+
+  updateURL(p: QueryParams): void {
+    window.history.replaceState(
+      {},
+      '',
+      `search?q=${p.q}&page=${p.page}&type=${p.type}`
+    );
   }
 
   get resultArray(): Array<any> {

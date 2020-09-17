@@ -30,11 +30,7 @@ export class SearchService implements OnDestroy {
   }
   private paginationSub: Subscription;
 
-  constructor(private base: BaseService) {
-    this.paginationSub = this.eventChangePagination.subscribe((pageData) => {
-      this.search(pageData.text, pageData.pageIndex, pageData.type);
-    });
-  }
+  constructor(private base: BaseService) {}
 
   public search(text: string, page: number, type: string = 'All'): void {
     if (type === 'Repositories' || type === 'All') {

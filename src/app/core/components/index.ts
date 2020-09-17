@@ -5,3 +5,4 @@ export * from './pagination';
 export * from './repositors';
 export * from './issues';
 export * from './codes';
+export * from './error';
