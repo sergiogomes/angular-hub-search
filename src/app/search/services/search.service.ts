@@ -3,6 +3,7 @@ import { Observable, Subject, Subscription } from 'rxjs';
 
 import { BaseService } from 'src/app/core/services/base.service';
 import { DefaultResult, PageUpdate, QueryParams } from 'src/app/core/models';
+import { HttpHeaders } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root',
@@ -41,9 +42,9 @@ export class SearchService implements OnDestroy {
       this.getSearchCodes(text, page);
     }
 
-    // if (type === 'Commits' || type === 'All') {
-    //   this.commitsData = this.getSearchCommits(text, page);
-    // }
+    if (type === 'Commits' || type === 'All') {
+      this.getSearchCommits(text, page);
+    }
 
     if (type === 'Issues' || type === 'All') {
       this.getSearchIssues(text, page);
@@ -94,7 +95,26 @@ export class SearchService implements OnDestroy {
       );
   }
 
-  public getSearchCommits(text: string, page: number): void {}
+  public getSearchCommits(text: string, page: number): void {
+    const headers = new HttpHeaders({
+      Accept: 'application/vnd.github.cloak-preview+json',
+    });
+    this.base
+      .get(`/search/commits?q=${text}&order=asc&page=${page}`, headers)
+      .then(
+        (resp) => {
+          this.commitsData.incomplete_results = resp.incomplete_results;
+          this.commitsData.total_count = this.limitResults(resp.total_count);
+          this.commitsData.items = resp.items;
+          this.commitsData.page = page;
+        },
+        (err) => {
+          // TODO: explode this error
+          console.error(err);
+          this.commitsData.error = err;
+        }
+      );
+  }
 
   public getSearchIssues(text: string, page: number): void {
     this.base.get(`/search/issues?q=${text}&order=asc&page=${page}`).then(

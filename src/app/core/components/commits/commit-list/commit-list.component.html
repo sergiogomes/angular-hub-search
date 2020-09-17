@@ -1,0 +1,30 @@
+<ng-container *ngIf="commitsData">
+  <ng-container *ngFor="let commit of commitsData.items">
+    <mat-card class="card">
+      <mat-card-header>
+        <mat-card-subtitle
+          >{{ commit.repository.full_name }}
+        </mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <h2>{{ commit.commit.message }}</h2>
+        <div class="justify-between">
+          <ng-container
+            *ngIf="commit.author && commit.author.login; else elseBlock"
+          >
+            <small class="card-comment"
+              >{{ commit.author.login }} committed on
+              {{ commit.commit.committer.date | date }}</small
+            >
+          </ng-container>
+          <ng-template #elseBlock>
+            <small class="card-comment">
+              {{ commit.commit.committer.date | date }}</small
+            >
+          </ng-template>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </ng-container>
+  <app-error [errorData]="commitsData.error"></app-error>
+</ng-container>

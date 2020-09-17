@@ -6,3 +6,4 @@ export * from './repositors';
 export * from './issues';
 export * from './codes';
 export * from './error';
+export * from './commits';
