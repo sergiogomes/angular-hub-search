@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 import { DefaultResult } from 'src/app/core/models';
 
@@ -7,12 +7,10 @@ import { DefaultResult } from 'src/app/core/models';
   templateUrl: './user-list.component.html',
   styleUrls: ['./user-list.component.scss'],
 })
-export class UserListComponent implements OnInit {
+export class UserListComponent {
   @Input() usersData: DefaultResult;
   @Input() text: string;
   @Input() type: string;
 
   constructor() {}
-
-  ngOnInit(): void {}
 }

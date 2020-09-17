@@ -49,9 +49,9 @@ export class SearchService implements OnDestroy {
     //   this.commitsData = this.getSearchCommits(text, page);
     // }
 
-    // if (type === 'Issues' || type === 'All') {
-    //   this.issuesData = this.getSearchIssues(text, page);
-    // }
+    if (type === 'Issues' || type === 'All') {
+      this.getSearchIssues(text, page);
+    }
 
     // if (type === 'Topics' || type === 'All') {
     //   this.topicsData = this.getSearchTopics(text, page);
@@ -66,8 +66,7 @@ export class SearchService implements OnDestroy {
     this.base.get(`/search/repositories?q=${text}&order=asc&page=${page}`).then(
       (resp) => {
         this.repositoriesData.incomplete_results = resp.incomplete_results;
-        this.repositoriesData.total_count =
-          resp.total_count > 1000 ? 1000 : resp.total_count;
+        this.repositoriesData.total_count = this.limitResults(resp.total_count);
         this.repositoriesData.items = resp.items;
         this.repositoriesData.page = page;
       },
@@ -83,7 +82,21 @@ export class SearchService implements OnDestroy {
 
   public getSearchCommits(text: string, page: number): void {}
 
-  public getSearchIssues(text: string, page: number): void {}
+  public getSearchIssues(text: string, page: number): void {
+    this.base.get(`/search/issues?q=${text}&order=asc&page=${page}`).then(
+      (resp) => {
+        this.issuesData.incomplete_results = resp.incomplete_results;
+        this.issuesData.total_count = this.limitResults(resp.total_count);
+        this.issuesData.items = resp.items;
+        this.issuesData.page = page;
+      },
+      (err) => {
+        // TODO: explode this error
+        console.error(err);
+        this.issuesData.error = err;
+      }
+    );
+  }
 
   public getSearchTopics(text: string, page: number): void {}
 
@@ -91,8 +104,7 @@ export class SearchService implements OnDestroy {
     this.base.get(`/search/users?q=${text}&order=asc&page=${page}`).then(
       (resp) => {
         this.usersData.incomplete_results = resp.incomplete_results;
-        this.usersData.total_count =
-          resp.total_count > 1000 ? 1000 : resp.total_count;
+        this.usersData.total_count = this.limitResults(resp.total_count);
         this.usersData.items = resp.items;
         this.usersData.page = page;
       },
@@ -102,6 +114,10 @@ export class SearchService implements OnDestroy {
         this.usersData.error = err;
       }
     );
+  }
+
+  private limitResults(total: number): number {
+    return total > 1000 ? 1000 : total;
   }
 
   ngOnDestroy(): void {

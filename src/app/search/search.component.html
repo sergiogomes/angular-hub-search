@@ -30,6 +30,13 @@
           [type]="type"
         ></app-repository-list>
       </ng-container>
+      <ng-container *ngIf="selectedFilter === 'Issues'">
+        <app-issue-list
+          [issuesData]="service.issuesData"
+          [text]="text"
+          [type]="type"
+        ></app-issue-list>
+      </ng-container>
       <ng-container *ngIf="selectedFilter === 'Users'">
         <app-user-list
           [usersData]="service.usersData"

@@ -19,11 +19,17 @@ export class SearchComponent implements OnInit, OnDestroy {
 
   private routeParamsSub: Subscription;
   private searchingSub: Subscription;
+  private paginationSub: Subscription;
 
   constructor(private route: ActivatedRoute, public service: SearchService) {
     this.searchingSub = this.service.eventSearchChanged.subscribe((params) => {
       this.mapAndSearch(params);
     });
+    this.paginationSub = this.service.eventChangePagination.subscribe(
+      (pageData) => {
+        this.page = pageData.pageIndex;
+      }
+    );
   }
 
   ngOnInit(): void {
@@ -35,7 +41,7 @@ export class SearchComponent implements OnInit, OnDestroy {
 
   mapAndSearch(params: QueryParams | any): void {
     this.text = params.q;
-    this.page = params.page;
+    this.page = Number(params.page);
     this.type = params.type;
     this.selectedFilter = this.type === 'All' ? 'Repositories' : this.type;
 
@@ -44,6 +50,10 @@ export class SearchComponent implements OnInit, OnDestroy {
 
   onSelectType(title): void {
     this.selectedFilter = title;
+    const filtered = this.resultFiltered;
+    if (filtered.total_count === 0) {
+      this.mapAndSearch({ q: this.text, page: filtered.page, type: title });
+    }
   }
 
   get resultArray(): Array<any> {
@@ -68,13 +78,15 @@ export class SearchComponent implements OnInit, OnDestroy {
   }
 
   get resultTitle(): string {
-    return `${this.resultFiltered.total_count} ${this.resultFiltered.single} ${
-      this.resultFiltered.total_count > 1 ? 'results' : 'result'
+    const filterd = this.resultFiltered;
+    return `${filterd.total_count} ${filterd.single} ${
+      filterd.total_count > 1 ? 'results' : 'result'
     }`;
   }
 
   ngOnDestroy(): void {
     this.routeParamsSub.unsubscribe();
     this.searchingSub.unsubscribe();
+    this.paginationSub.unsubscribe();
   }
 }

@@ -18,11 +18,12 @@
         </ng-container>
         <div class="justify-between">
           <small>{{ repo.language }}</small>
-          <small class="card-date"
+          <small class="card-comment"
             >Updated on {{ repo.updated_at | date }}</small
           >
         </div>
       </mat-card-content>
     </mat-card>
   </ng-container>
+  <p class="result-error">{{ repositoriesData.error }}</p>
 </ng-container>

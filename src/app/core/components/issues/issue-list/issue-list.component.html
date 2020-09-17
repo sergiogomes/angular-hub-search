@@ -1,0 +1,26 @@
+<ng-container *ngIf="issuesData">
+  <ng-container *ngFor="let issue of issuesData.items">
+    <mat-card class="card">
+      <mat-card-header>
+        <mat-card-subtitle
+          >{{ manageRepoUrl(issue.repository_url) }} #{{ issue.number }}
+        </mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <h2>{{ issue.title }}</h2>
+        <div class="justify-between">
+          <small class="card-comment"
+            >{{ issue.user.login }} opened on
+            {{ issue.created_at | date }}</small
+          >
+          <small class="card-comment"
+            >{{ issue.comments }}
+            {{ issue.comments === 1 ? "comment" : "comments" }}</small
+          >
+          <small class="card-comment">status: {{ issue.state }}</small>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </ng-container>
+  <p class="result-error">{{ issuesData.error }}</p>
+</ng-container>
