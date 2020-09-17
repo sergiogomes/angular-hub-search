@@ -37,9 +37,9 @@ export class SearchService implements OnDestroy {
   }
 
   public search(text: string, page: number, type: string = 'All'): void {
-    // if (type === 'Repositories' || type === 'All') {
-    //   this.repositoriesData = this.getSearchRepositories(text, page);
-    // }
+    if (type === 'Repositories' || type === 'All') {
+      this.getSearchRepositories(text, page);
+    }
 
     // if (type === 'Code' || type === 'All') {
     //   this.codesData = this.getSearchCodes(text, page);
@@ -62,7 +62,22 @@ export class SearchService implements OnDestroy {
     }
   }
 
-  public getSearchRepositories(text: string, page: number): void {}
+  public getSearchRepositories(text: string, page: number): void {
+    this.base.get(`/search/repositories?q=${text}&order=asc&page=${page}`).then(
+      (resp) => {
+        this.repositoriesData.incomplete_results = resp.incomplete_results;
+        this.repositoriesData.total_count =
+          resp.total_count > 1000 ? 1000 : resp.total_count;
+        this.repositoriesData.items = resp.items;
+        this.repositoriesData.page = page;
+      },
+      (err) => {
+        // TODO: explode this error
+        console.error(err);
+        this.repositoriesData.error = err;
+      }
+    );
+  }
 
   public getSearchCodes(text: string, page: number): void {}
 
@@ -76,7 +91,8 @@ export class SearchService implements OnDestroy {
     this.base.get(`/search/users?q=${text}&order=asc&page=${page}`).then(
       (resp) => {
         this.usersData.incomplete_results = resp.incomplete_results;
-        this.usersData.total_count = resp.total_count;
+        this.usersData.total_count =
+          resp.total_count > 1000 ? 1000 : resp.total_count;
         this.usersData.items = resp.items;
         this.usersData.page = page;
       },

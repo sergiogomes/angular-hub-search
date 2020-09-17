@@ -1,16 +1,13 @@
 <ng-container *ngIf="usersData">
-  <h1>{{ usersData.total_count }} users</h1>
-  <div>
-    <ng-container *ngFor="let user of usersData.items">
-      <mat-card class="card">
-        <mat-card-header>
-          <div mat-card-avatar class="header-image">
-            <img mat-card-avatar [src]="user.avatar_url" [alt]="user.login" />
-          </div>
-          <mat-card-title>{{ user.login }}</mat-card-title>
-          <mat-card-subtitle>{{ user.login }}</mat-card-subtitle>
-        </mat-card-header>
-      </mat-card>
-    </ng-container>
-  </div>
+  <ng-container *ngFor="let user of usersData.items">
+    <mat-card class="card">
+      <mat-card-header>
+        <div mat-card-avatar class="header-image">
+          <img mat-card-avatar [src]="user.avatar_url" [alt]="user.login" />
+        </div>
+        <mat-card-title>{{ user.login }}</mat-card-title>
+        <mat-card-subtitle>{{ user.login }}</mat-card-subtitle>
+      </mat-card-header>
+    </mat-card>
+  </ng-container>
 </ng-container>

@@ -67,6 +67,12 @@ export class SearchComponent implements OnInit, OnDestroy {
     })[0];
   }
 
+  get resultTitle(): string {
+    return `${this.resultFiltered.total_count} ${this.resultFiltered.single} ${
+      this.resultFiltered.total_count > 1 ? 'results' : 'result'
+    }`;
+  }
+
   ngOnDestroy(): void {
     this.routeParamsSub.unsubscribe();
     this.searchingSub.unsubscribe();

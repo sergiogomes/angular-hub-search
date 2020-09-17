@@ -1,0 +1,28 @@
+<ng-container *ngIf="repositoriesData">
+  <ng-container *ngFor="let repo of repositoriesData.items">
+    <mat-card class="card">
+      <mat-card-header>
+        <mat-card-title>{{ repo.full_name }}</mat-card-title>
+        <mat-card-subtitle>{{ repo.description }}</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <p>
+          {{ repo.topics | json }}
+        </p>
+        <ng-container *ngIf="repo.topics && repo.topics.length > 0">
+          <mat-chip-list cdkDropList cdkDropListOrientation="horizontal">
+            <mat-chip cdkDrag *ngFor="let topic of repo.topics">
+              {{ topic }}
+            </mat-chip>
+          </mat-chip-list>
+        </ng-container>
+        <div class="justify-between">
+          <small>{{ repo.language }}</small>
+          <small class="card-date"
+            >Updated on {{ repo.updated_at | date }}</small
+          >
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </ng-container>
+</ng-container>

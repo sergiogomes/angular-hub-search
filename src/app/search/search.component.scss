@@ -56,8 +56,9 @@
         }
 
         .mat-badge-medium.mat-badge-after .mat-badge-content {
-          right: unset;
-          top: unset;
+          border-radius: 10rem;
+          left: -17px;
+          width: 30px;
         }
       }
     }

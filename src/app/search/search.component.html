@@ -7,13 +7,13 @@
           (click)="onSelectType(option.title)"
           [class]="selectedFilter === option.title ? 'selected' : ''"
         >
+          <span>{{ option.title }}</span>
           <span
             [matBadgeDisabled]="option.total_count === 0"
-            [matBadge]="option.total_count"
+            [matBadge]="option.total_count === 1000 ? '1K' : option.total_count"
             matBadgeOverlap="false"
             matBadgePosition="after"
-            >{{ option.title }}</span
-          >
+          ></span>
         </div>
         <div class="divider"></div>
       </li>
@@ -22,6 +22,14 @@
 
   <div class="main">
     <div class="results" [style]="innerHeight">
+      <h1>{{ resultTitle }}</h1>
+      <ng-container *ngIf="selectedFilter === 'Repositories'">
+        <app-repository-list
+          [repositoriesData]="service.repositoriesData"
+          [text]="text"
+          [type]="type"
+        ></app-repository-list>
+      </ng-container>
       <ng-container *ngIf="selectedFilter === 'Users'">
         <app-user-list
           [usersData]="service.usersData"
