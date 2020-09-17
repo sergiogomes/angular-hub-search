@@ -1,0 +1,23 @@
+<ng-container *ngIf="codesData">
+  <ng-container *ngFor="let code of codesData.items">
+    <mat-card class="card">
+      <mat-card-header>
+        <div mat-card-avatar class="header-image">
+          <img
+            mat-card-avatar
+            [src]="code.repository.owner.avatar_url"
+            [alt]="code.repository.owner.login"
+          />
+        </div>
+        <mat-card-subtitle>{{ code.repository.full_name }}</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="justify-between">
+          <small class="card-comment">{{ code.path }}</small>
+          <small class="card-comment">{{ getFileExtension(code.name) }}</small>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </ng-container>
+  <p class="result-error">{{ codesData.error }}</p>
+</ng-container>

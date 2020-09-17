@@ -41,9 +41,9 @@ export class SearchService implements OnDestroy {
       this.getSearchRepositories(text, page);
     }
 
-    // if (type === 'Code' || type === 'All') {
-    //   this.codesData = this.getSearchCodes(text, page);
-    // }
+    if (type === 'Code' || type === 'All') {
+      this.getSearchCodes(text, page);
+    }
 
     // if (type === 'Commits' || type === 'All') {
     //   this.commitsData = this.getSearchCommits(text, page);
@@ -78,7 +78,25 @@ export class SearchService implements OnDestroy {
     );
   }
 
-  public getSearchCodes(text: string, page: number): void {}
+  public getSearchCodes(text: string, page: number): void {
+    this.base
+      .get(
+        `/search/code?q=${text}+in%3Afile+user%3Agithub&order=asc&page=${page}`
+      )
+      .then(
+        (resp) => {
+          this.codesData.incomplete_results = resp.incomplete_results;
+          this.codesData.total_count = this.limitResults(resp.total_count);
+          this.codesData.items = resp.items;
+          this.codesData.page = page;
+        },
+        (err) => {
+          // TODO: explode this error
+          console.error(err);
+          this.codesData.error = err;
+        }
+      );
+  }
 
   public getSearchCommits(text: string, page: number): void {}
 

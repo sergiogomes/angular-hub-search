@@ -4,3 +4,4 @@ export * from './users';
 export * from './pagination';
 export * from './repositors';
 export * from './issues';
+export * from './codes';

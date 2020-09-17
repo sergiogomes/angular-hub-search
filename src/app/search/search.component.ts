@@ -80,7 +80,7 @@ export class SearchComponent implements OnInit, OnDestroy {
   get resultTitle(): string {
     const filterd = this.resultFiltered;
     return `${filterd.total_count} ${filterd.single} ${
-      filterd.total_count > 1 ? 'results' : 'result'
+      filterd.total_count === 1 ? 'result' : 'results'
     }`;
   }
 
