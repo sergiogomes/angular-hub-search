@@ -21,24 +21,26 @@
   </div>
 
   <div class="main">
-    <div class="results" [style]="innerHeight">
-      <h1 *ngIf="resultTitle; else elseBlock">{{ resultTitle }}</h1>
+    <div class="results padding-y-20" [style]="innerHeightStyle">
+      <h1 *ngIf="resultTitle; else elseBlock">
+        {{ resultTitle }}
+      </h1>
       <ng-template #elseBlock>
         <h2 class="center">{{ noResults }}</h2>
         <app-no-results></app-no-results>
       </ng-template>
 
       <app-result-search
-        [data]="resultFiltered"
+        [data]="mainData"
         [text]="text"
-        [type]="type"
+        [type]="selectedFilter"
       ></app-result-search>
     </div>
 
     <app-pagination
-      *ngIf="resultFiltered.total_count > 30"
-      [total]="resultFiltered.total_count"
-      [page]="resultFiltered.page"
+      *ngIf="mainData.total_count > 30"
+      [total]="mainData.total_count"
+      [page]="mainData.page"
       [text]="text"
       [type]="selectedFilter"
     ></app-pagination>

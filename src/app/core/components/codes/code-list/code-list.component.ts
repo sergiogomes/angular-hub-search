@@ -14,14 +14,18 @@ export class CodeListComponent {
   constructor() {}
 
   getFileExtension(file: string): string {
-    const ext = file.split('.')[1].toUpperCase();
-    switch (ext) {
-      case 'JS':
-        return 'JavaScript';
-      case 'MD':
-        return 'Markdown';
-      default:
-        return ext;
+    if (file.indexOf('.') > -1) {
+      const ext = file.split('.')[1].toUpperCase();
+      switch (ext) {
+        case 'JS':
+          return 'JavaScript';
+        case 'MD':
+          return 'Markdown';
+        default:
+          return ext;
+      }
+    } else {
+      return file;
     }
   }
 }

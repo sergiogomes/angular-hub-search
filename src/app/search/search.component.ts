@@ -15,7 +15,9 @@ export class SearchComponent implements OnInit, OnDestroy {
   type: string;
   page: number;
   selectedFilter: string;
-  innerHeight = 'max-height: 500px;';
+  innerHeightStyle = 'max-height: 500px;';
+  innerWidth: number;
+  mainData: DefaultResult;
 
   private routeParamsSub: Subscription;
   private searchingSub: Subscription;
@@ -33,12 +35,18 @@ export class SearchComponent implements OnInit, OnDestroy {
           page: pageData.pageIndex,
           type: pageData.type,
         });
+        if (innerWidth < 575) {
+          window.scroll(0, 0);
+        }
       }
     );
   }
 
   ngOnInit(): void {
-    this.innerHeight = `max-height: ${window.innerHeight - 166}px`;
+    this.innerWidth = window.innerWidth;
+    const innerHeight = window.innerHeight - 166;
+    this.innerHeightStyle =
+      innerHeight > 575 ? `max-height: ${innerHeight}px` : '';
     this.routeParamsSub = this.route.queryParams.subscribe((params) => {
       this.mapAndSearch(params);
     });
@@ -50,17 +58,21 @@ export class SearchComponent implements OnInit, OnDestroy {
     this.type = params.type;
     this.selectedFilter = this.type === 'All' ? 'Repositories' : this.type;
 
-    this.service.search(this.text, this.page, this.type);
+    this.service.search(this.text, this.page, this.type, this.innerWidth);
     this.updateURL({ q: this.text, page: this.page, type: this.type });
   }
 
   onSelectType(title): void {
     this.selectedFilter = title;
-    const filtered = this.resultFiltered;
-    if (filtered.total_count === 0) {
-      this.mapAndSearch({ q: this.text, page: filtered.page, type: title });
+    this.mainData = this.resultFiltered;
+    if (this.mainData.total_count === 0) {
+      this.mapAndSearch({
+        q: this.text,
+        page: this.mainData.page,
+        type: title,
+      });
     } else {
-      this.updateURL({ q: this.text, page: filtered.page, type: title });
+      this.updateURL({ q: this.text, page: this.mainData.page, type: title });
     }
   }
 
@@ -94,18 +106,18 @@ export class SearchComponent implements OnInit, OnDestroy {
   }
 
   get resultTitle(): string {
-    const filterd = this.resultFiltered;
-    if (filterd.total_count > 0) {
-      return `${filterd.total_count} ${filterd.single} ${
-        filterd.total_count === 1 ? 'result' : 'results'
+    this.mainData = this.resultFiltered;
+    if (this.mainData.total_count > 0) {
+      return `${this.mainData.total_count} ${this.mainData.single} ${
+        this.mainData.total_count === 1 ? 'result' : 'results'
       }`;
     }
     return '';
   }
 
   get noResults(): string {
-    const filterd = this.resultFiltered;
-    return `We couldn’t find any ${filterd.single} in the GitHub Searching API matching '${this.text}'.`;
+    this.mainData = this.resultFiltered;
+    return `We couldn’t find any ${this.mainData.single} in the GitHub Searching API matching '${this.text}'.`;
   }
 
   ngOnDestroy(): void {

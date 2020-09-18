@@ -8,3 +8,13 @@
   display: flex;
   justify-content: center;
 }
+
+.reponsive-title {
+  display: none;
+}
+
+@media screen and (min-width: 575px) {
+  .reponsive-title {
+    display: block;
+  }
+}

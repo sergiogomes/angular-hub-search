@@ -13,9 +13,11 @@
       </mat-card-header>
       <mat-card-content>
         <div class="justify-between">
-          <small class="card-comment">{{ code.path }}</small>
-          <small class="card-comment">{{ getFileExtension(code.name) }}</small>
+          <small class="card-comment word-break">{{ code.path }}</small>
         </div>
+        <small class="card-comment">
+          <span class="end"> {{ getFileExtension(code.name) }}</span>
+        </small>
       </mat-card-content>
     </mat-card>
   </ng-container>

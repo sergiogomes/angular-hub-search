@@ -1,7 +1,9 @@
 <ng-container *ngIf="errorData">
   <mat-card class="card b-error">
     <mat-card-header>
-      <mat-card-title>{{ errorData.statusText }}</mat-card-title>
+      <mat-card-title class="c-error">{{
+        errorData.statusText
+      }}</mat-card-title>
       <mat-card-subtitle class="c-error">{{
         errorData.error.message
       }}</mat-card-subtitle>

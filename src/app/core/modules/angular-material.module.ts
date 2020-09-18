@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
@@ -14,6 +15,7 @@ import { MatCardModule } from '@angular/material/card';
   imports: [
     MatProgressSpinnerModule,
     MatPaginatorModule,
+    MatSnackBarModule,
     MatToolbarModule,
     MatButtonModule,
     MatInputModule,
@@ -25,6 +27,7 @@ import { MatCardModule } from '@angular/material/card';
   exports: [
     MatProgressSpinnerModule,
     MatPaginatorModule,
+    MatSnackBarModule,
     MatToolbarModule,
     MatButtonModule,
     MatInputModule,

@@ -20,10 +20,25 @@ body {
 
 .card-comment {
   color: rgba(0, 0, 0, 0.54);
-  text-align: end;
+
+  .end {
+    display: block;
+    text-align: end;
+  }
+}
+
+.word-break {
+  word-break: break-all;
 }
 
 .center {
   text-align: center;
   width: 100%;
+}
+
+.mat-button,
+.mat-icon-button,
+.mat-stroked-button {
+  color: rgb(244 67 54);
+  background: transparent;
 }

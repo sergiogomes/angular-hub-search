@@ -1,9 +1,14 @@
 import { Injectable } from '@angular/core';
+import { HttpHeaders } from '@angular/common/http';
+import {
+  MatSnackBar,
+  MatSnackBarHorizontalPosition,
+  MatSnackBarVerticalPosition,
+} from '@angular/material/snack-bar';
 import { Observable, Subject } from 'rxjs';
 
 import { BaseService } from 'src/app/core/services/base.service';
 import { DefaultResult, PageUpdate, QueryParams } from 'src/app/core/models';
-import { HttpHeaders } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root',
@@ -20,6 +25,9 @@ export class SearchService {
   wikisData = new DefaultResult('Wikis', 'wiki');
   usersData = new DefaultResult('Users', 'user');
 
+  horizontal: MatSnackBarHorizontalPosition = 'end';
+  vertical: MatSnackBarVerticalPosition = 'top';
+
   public searchChanged$: Subject<QueryParams> = new Subject<QueryParams>();
   get eventSearchChanged(): Observable<any> {
     return this.searchChanged$.asObservable();
@@ -30,9 +38,19 @@ export class SearchService {
     return this.pagination$.asObservable();
   }
 
-  constructor(private base: BaseService) {}
+  constructor(private base: BaseService, private snackBar: MatSnackBar) {}
 
-  public search(text: string, page: number, type: string = 'All'): void {
+  public search(
+    text: string,
+    page: number,
+    type: string = 'All',
+    innerWidth: number
+  ): void {
+    if (innerWidth < 575) {
+      this.horizontal = 'center';
+      this.vertical = 'bottom';
+    }
+
     switch (type) {
       case 'Repositories':
         this.getSearchRepositories(text, page);
@@ -74,8 +92,7 @@ export class SearchService {
         this.repositoriesData.page = page;
       },
       (err) => {
-        // TODO: explode this error
-        console.error(err);
+        this.showError(err.statusText);
         this.repositoriesData.error = err;
       }
     );
@@ -94,8 +111,7 @@ export class SearchService {
           this.codesData.page = page;
         },
         (err) => {
-          // TODO: explode this error
-          console.error(err);
+          this.showError(err.statusText);
           this.codesData.error = err;
         }
       );
@@ -115,8 +131,7 @@ export class SearchService {
           this.commitsData.page = page;
         },
         (err) => {
-          // TODO: explode this error
-          console.error(err);
+          this.showError(err.statusText);
           this.commitsData.error = err;
         }
       );
@@ -131,8 +146,7 @@ export class SearchService {
         this.issuesData.page = page;
       },
       (err) => {
-        // TODO: explode this error
-        console.error(err);
+        this.showError(err.statusText);
         this.issuesData.error = err;
       }
     );
@@ -152,8 +166,7 @@ export class SearchService {
           this.topicsData.page = page;
         },
         (err) => {
-          // TODO: explode this error
-          console.error(err);
+          this.showError(err.statusText);
           this.topicsData.error = err;
         }
       );
@@ -168,8 +181,7 @@ export class SearchService {
         this.usersData.page = page;
       },
       (err) => {
-        // TODO: explode this error
-        console.error(err);
+        this.showError(err.statusText);
         this.usersData.error = err;
       }
     );
@@ -177,5 +189,13 @@ export class SearchService {
 
   private limitResults(total: number): number {
     return total > 1000 ? 1000 : total;
+  }
+
+  private showError(message: string): void {
+    this.snackBar.open(message, 'Okay', {
+      duration: 5000,
+      horizontalPosition: this.horizontal,
+      verticalPosition: this.vertical,
+    });
   }
 }
