@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 
 import { SearchService } from 'src/app/search/services';
 import { QueryParams } from '../../models';
@@ -9,12 +10,22 @@ import { QueryParams } from '../../models';
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.scss'],
 })
-export class NavbarComponent implements OnInit {
+export class NavbarComponent implements OnInit, OnDestroy {
   searchText: string;
 
-  constructor(private router: Router, private service: SearchService) {}
+  private routeParamsSub: Subscription;
 
-  ngOnInit(): void {}
+  constructor(
+    private route: ActivatedRoute,
+    private router: Router,
+    private service: SearchService
+  ) {}
+
+  ngOnInit(): void {
+    this.routeParamsSub = this.route.queryParams.subscribe((params) => {
+      this.searchText = params.q ? params.q : this.searchText;
+    });
+  }
 
   public onSearch(): void {
     const objQueryParams: QueryParams = {
@@ -37,5 +48,9 @@ export class NavbarComponent implements OnInit {
 
   public onClickHome(): void {
     this.router.navigate(['/home']);
+  }
+
+  ngOnDestroy(): void {
+    this.routeParamsSub.unsubscribe();
   }
 }

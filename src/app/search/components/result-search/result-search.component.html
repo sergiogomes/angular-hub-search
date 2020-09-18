@@ -1,0 +1,41 @@
+<app-repository-list
+  *ngIf="type === 'Repositories'"
+  [repositoriesData]="data"
+  [text]="text"
+  [type]="type"
+></app-repository-list>
+
+<app-code-list
+  *ngIf="type === 'Code'"
+  [codesData]="data"
+  [text]="text"
+  [type]="type"
+></app-code-list>
+
+<app-commit-list
+  *ngIf="type === 'Commits'"
+  [commitsData]="data"
+  [text]="text"
+  [type]="type"
+></app-commit-list>
+
+<app-issue-list
+  *ngIf="type === 'Issues'"
+  [issuesData]="data"
+  [text]="text"
+  [type]="type"
+></app-issue-list>
+
+<app-topic-list
+  *ngIf="type === 'Topics'"
+  [topicsData]="data"
+  [text]="text"
+  [type]="type"
+></app-topic-list>
+
+<app-user-list
+  *ngIf="type === 'Users'"
+  [usersData]="data"
+  [text]="text"
+  [type]="type"
+></app-user-list>

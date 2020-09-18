@@ -95,9 +95,17 @@ export class SearchComponent implements OnInit, OnDestroy {
 
   get resultTitle(): string {
     const filterd = this.resultFiltered;
-    return `${filterd.total_count} ${filterd.single} ${
-      filterd.total_count === 1 ? 'result' : 'results'
-    }`;
+    if (filterd.total_count > 0) {
+      return `${filterd.total_count} ${filterd.single} ${
+        filterd.total_count === 1 ? 'result' : 'results'
+      }`;
+    }
+    return '';
+  }
+
+  get noResults(): string {
+    const filterd = this.resultFiltered;
+    return `We couldn’t find any ${filterd.single} in the GitHub Searching API matching '${this.text}'.`;
   }
 
   ngOnDestroy(): void {

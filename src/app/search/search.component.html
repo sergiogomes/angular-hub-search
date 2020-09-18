@@ -22,57 +22,25 @@
 
   <div class="main">
     <div class="results" [style]="innerHeight">
-      <h1>{{ resultTitle }}</h1>
-      <ng-container *ngIf="selectedFilter === 'Repositories'">
-        <app-repository-list
-          [repositoriesData]="service.repositoriesData"
-          [text]="text"
-          [type]="type"
-        ></app-repository-list>
-      </ng-container>
-      <ng-container *ngIf="selectedFilter === 'Code'">
-        <app-code-list
-          [codesData]="service.codesData"
-          [text]="text"
-          [type]="type"
-        ></app-code-list>
-      </ng-container>
-      <ng-container *ngIf="selectedFilter === 'Commits'">
-        <app-commit-list
-          [commitsData]="service.commitsData"
-          [text]="text"
-          [type]="type"
-        ></app-commit-list>
-      </ng-container>
-      <ng-container *ngIf="selectedFilter === 'Issues'">
-        <app-issue-list
-          [issuesData]="service.issuesData"
-          [text]="text"
-          [type]="type"
-        ></app-issue-list>
-      </ng-container>
-      <ng-container *ngIf="selectedFilter === 'Topics'">
-        <app-topic-list
-          [topicsData]="service.topicsData"
-          [text]="text"
-          [type]="type"
-        ></app-topic-list>
-      </ng-container>
-      <ng-container *ngIf="selectedFilter === 'Users'">
-        <app-user-list
-          [usersData]="service.usersData"
-          [text]="text"
-          [type]="type"
-        ></app-user-list>
-      </ng-container>
-    </div>
-    <ng-container *ngIf="resultFiltered.total_count > 30">
-      <app-pagination
-        [total]="resultFiltered.total_count"
-        [page]="resultFiltered.page"
+      <h1 *ngIf="resultTitle; else elseBlock">{{ resultTitle }}</h1>
+      <ng-template #elseBlock>
+        <h2 class="center">{{ noResults }}</h2>
+        <app-no-results></app-no-results>
+      </ng-template>
+
+      <app-result-search
+        [data]="resultFiltered"
         [text]="text"
-        [type]="selectedFilter"
-      ></app-pagination>
-    </ng-container>
+        [type]="type"
+      ></app-result-search>
+    </div>
+
+    <app-pagination
+      *ngIf="resultFiltered.total_count > 30"
+      [total]="resultFiltered.total_count"
+      [page]="resultFiltered.page"
+      [text]="text"
+      [type]="selectedFilter"
+    ></app-pagination>
   </div>
 </div>
