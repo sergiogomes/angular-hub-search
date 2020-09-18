@@ -13,6 +13,7 @@ import {
   NavbarComponent,
   PaginationComponent,
   RepositoryListComponent,
+  TopicListComponent,
   UserListComponent,
 } from '../components';
 
@@ -22,6 +23,7 @@ import {
     AngularMaterialModule,
     PaginationComponent,
     CommitListComponent,
+    TopicListComponent,
     IssueListComponent,
     CodeListComponent,
     UserListComponent,
@@ -34,6 +36,7 @@ import {
     RepositoryListComponent,
     PaginationComponent,
     CommitListComponent,
+    TopicListComponent,
     IssueListComponent,
     CodeListComponent,
     UserListComponent,

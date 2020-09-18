@@ -7,3 +7,4 @@ export * from './issues';
 export * from './codes';
 export * from './error';
 export * from './commits';
+export * from './topics';

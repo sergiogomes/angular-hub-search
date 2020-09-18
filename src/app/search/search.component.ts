@@ -1,8 +1,8 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { DefaultResult, QueryParams } from '../core/models';
 
+import { DefaultResult, QueryParams } from '../core/models';
 import { SearchService } from './services';
 
 @Component({

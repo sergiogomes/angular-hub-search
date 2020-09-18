@@ -1,0 +1,19 @@
+<ng-container *ngIf="topicsData">
+  <ng-container *ngFor="let topic of topicsData.items">
+    <mat-card class="card">
+      <mat-card-header>
+        <mat-card-title># {{ topic.name }}</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <h3>{{ topic.short_description }}</h3>
+        <div class="justify-between">
+          <small class="card-comment"
+            >{{ topic.created_by }} created on
+            {{ topic.created_at | date }}</small
+          >
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </ng-container>
+  <app-error [errorData]="topicsData.error"></app-error>
+</ng-container>

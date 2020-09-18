@@ -1,5 +1,5 @@
-import { Injectable, OnDestroy } from '@angular/core';
-import { Observable, Subject, Subscription } from 'rxjs';
+import { Injectable } from '@angular/core';
+import { Observable, Subject } from 'rxjs';
 
 import { BaseService } from 'src/app/core/services/base.service';
 import { DefaultResult, PageUpdate, QueryParams } from 'src/app/core/models';
@@ -8,15 +8,15 @@ import { HttpHeaders } from '@angular/common/http';
 @Injectable({
   providedIn: 'root',
 })
-export class SearchService implements OnDestroy {
+export class SearchService {
   repositoriesData = new DefaultResult('Repositories', 'repository');
-  codesData = new DefaultResult('Code', 'code');
+  discussionsData = new DefaultResult('Discussions', 'discussion');
+  marketplaceData = new DefaultResult('Marketplace', 'marketplace');
+  packagesData = new DefaultResult('Packages', 'package');
   commitsData = new DefaultResult('Commits', 'commit');
   issuesData = new DefaultResult('Issues', 'issue');
-  discussionsData = new DefaultResult('Discussions', 'discussion');
-  packagesData = new DefaultResult('Packages', 'package');
-  marketplaceData = new DefaultResult('Marketplace', 'marketplace');
   topicsData = new DefaultResult('Topics', 'topic');
+  codesData = new DefaultResult('Code', 'code');
   wikisData = new DefaultResult('Wikis', 'wiki');
   usersData = new DefaultResult('Users', 'user');
 
@@ -29,33 +29,39 @@ export class SearchService implements OnDestroy {
   get eventChangePagination(): Observable<any> {
     return this.pagination$.asObservable();
   }
-  private paginationSub: Subscription;
 
   constructor(private base: BaseService) {}
 
   public search(text: string, page: number, type: string = 'All'): void {
-    if (type === 'Repositories' || type === 'All') {
-      this.getSearchRepositories(text, page);
-    }
-
-    if (type === 'Code' || type === 'All') {
-      this.getSearchCodes(text, page);
-    }
-
-    if (type === 'Commits' || type === 'All') {
-      this.getSearchCommits(text, page);
-    }
-
-    if (type === 'Issues' || type === 'All') {
-      this.getSearchIssues(text, page);
-    }
-
-    // if (type === 'Topics' || type === 'All') {
-    //   this.topicsData = this.getSearchTopics(text, page);
-    // }
-
-    if (type === 'Users' || type === 'All') {
-      this.getSearchUsers(text, page);
+    switch (type) {
+      case 'Repositories':
+        this.getSearchRepositories(text, page);
+        break;
+      case 'Code':
+        this.getSearchCodes(text, page);
+        break;
+      case 'Commits':
+        this.getSearchCommits(text, page);
+        break;
+      case 'Issues':
+        this.getSearchIssues(text, page);
+        break;
+      case 'Topics':
+        this.getSearchTopics(text, page);
+        break;
+      case 'Users':
+        this.getSearchUsers(text, page);
+        break;
+      case 'All':
+        this.getSearchRepositories(text, page);
+        this.getSearchCodes(text, page);
+        this.getSearchCommits(text, page);
+        this.getSearchIssues(text, page);
+        this.getSearchTopics(text, page);
+        this.getSearchUsers(text, page);
+        break;
+      default:
+        break;
     }
   }
 
@@ -132,7 +138,26 @@ export class SearchService implements OnDestroy {
     );
   }
 
-  public getSearchTopics(text: string, page: number): void {}
+  public getSearchTopics(text: string, page: number): void {
+    const headers = new HttpHeaders({
+      Accept: 'application/vnd.github.mercy-preview+json',
+    });
+    this.base
+      .get(`/search/topics?q=${text}&order=asc&page=${page}`, headers)
+      .then(
+        (resp) => {
+          this.topicsData.incomplete_results = resp.incomplete_results;
+          this.topicsData.total_count = this.limitResults(resp.total_count);
+          this.topicsData.items = resp.items;
+          this.topicsData.page = page;
+        },
+        (err) => {
+          // TODO: explode this error
+          console.error(err);
+          this.topicsData.error = err;
+        }
+      );
+  }
 
   public getSearchUsers(text: string = 'sergiogomes', page: number): void {
     this.base.get(`/search/users?q=${text}&order=asc&page=${page}`).then(
@@ -152,9 +177,5 @@ export class SearchService implements OnDestroy {
 
   private limitResults(total: number): number {
     return total > 1000 ? 1000 : total;
-  }
-
-  ngOnDestroy(): void {
-    this.paginationSub.unsubscribe();
   }
 }
